@@ -14,10 +14,10 @@ let QuoteSchema = new mongoose.Schema({
     image: {
         type: String,
     },
-    ownerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    // ownerId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User'
+    // },
 })
 
 let QuoteModel = mongoose.model('quote', QuoteSchema)

@@ -138,8 +138,8 @@ router.post('/logout', (req, res) => {
   .send();
 })
 
-router.get("/user", isLoggedIn, (req, res, next) => {
-  res.status(200).json(req.session.loggedInUser);
+router.get("/user", (req, res, next) => {
+  res.status(200).json(req.session);
 });
 
 module.exports = router;

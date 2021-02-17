@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 let QuoteModel = require('../models/Quote.model')
-const { isLoggedIn } = require('../helpers/auth-helper'); // to check if user is loggedIn
+// const { isLoggedIn } = require('../helpers/auth-helper'); // to check if user is loggedIn
 
 
 router.get('/quotes', (req, res) => {
@@ -16,7 +16,7 @@ router.get('/quotes', (req, res) => {
                     error: 'Something went wrong',
                     message: err
                })
-     })         
+     })          
 })
 
 router.post('/create', (req, res) => {  
@@ -24,9 +24,9 @@ router.post('/create', (req, res) => {
 
     console.log("this is quotes req body:", req.body)
 
-    const ownerId = req.session.loggedInUser._id
-
-    QuoteModel.create({quote: quote, author:author, category:category, image:image, ownerId: ownerId})
+//     const ownerId = req.session.loggedInUser._id
+//     ownerId: ownerId
+    QuoteModel.create({quote: quote, author:author, category:category, image:image, })
           .then((response) => {
                res.status(200).json(response)
           })
@@ -38,7 +38,7 @@ router.post('/create', (req, res) => {
           })  
 })
 
-router.get('/quotes/:myId', isLoggedIn, (req, res) => {
+router.get('/quotes/:myId', (req, res) => {
   QuoteModel.findById(req.params.myId)
      .then((response) => {
           res.status(200).json(response)
@@ -51,7 +51,7 @@ router.get('/quotes/:myId', isLoggedIn, (req, res) => {
      }) 
 })
 
-router.delete('/quotes/:id', isLoggedIn, (req, res) => {
+router.delete('/quotes/:id', (req, res) => {
   QuoteModel.findByIdAndDelete(req.params.id)
           .then((response) => {
                res.status(200).json(response)
@@ -64,7 +64,7 @@ router.delete('/quotes/:id', isLoggedIn, (req, res) => {
           })  
 })
 
-router.patch('/quotes/:id', isLoggedIn, (req, res) => {
+router.patch('/quotes/:id', (req, res) => {
     let id = req.params.id
     const {quote, author, category} = req.body;
     QuoteModel.findByIdAndUpdate(id, {$set: {quote: quote, author: author, category: category}})
@@ -80,8 +80,8 @@ router.patch('/quotes/:id', isLoggedIn, (req, res) => {
           }) 
 })
 
-router.get("/user", isLoggedIn, (req, res, next) => {
-     res.status(200).json(req.session.loggedInUser);
-});
+// router.get("/user", (req, res, next) => {
+//      res.status(200).json(req.session);
+// });
 
 module.exports = router;
