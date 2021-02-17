@@ -20,7 +20,7 @@ const app = express();
 
 app.use(
   session({
-    secret: 'my-secret-weapon',
+    secret: 'my-secret',
     saveUninitialized: true,
     resave: true,
     cookie: {
@@ -69,5 +69,7 @@ app.use('/api', authRoutes);
 const quoteRoutes = require('./routes/quotes.routes');
 app.use('/api', quoteRoutes);
 
+const fileUploads = require('./routes/file-upload.routes')
+app.use('/api', fileUploads);
 
 module.exports = app;
