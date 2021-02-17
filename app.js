@@ -30,11 +30,13 @@ app.use(
       mongooseConnection: mongoose.connection,
       //time to live (in seconds)
       ttl: 60 * 60 * 24,
+      autoRemove: 'disabled',
     }),
   })
 );
 
-
+const cors = require('cors')
+app.use(cors({credentials: true, origin: ['http://localhost:3000']}))
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -61,11 +63,11 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'QuoteIt';
 
-// const index = require('./routes/index');
-// app.use('/', index);
-
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes);
+
+const quoteRoutes = require('./routes/quotes.routes');
+app.use('/api', quoteRoutes);
 
 
 module.exports = app;
