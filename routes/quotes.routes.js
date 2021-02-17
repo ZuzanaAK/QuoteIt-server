@@ -26,7 +26,7 @@ router.post('/create', (req, res) => {
 
 //     const ownerId = req.session.loggedInUser._id
 //     ownerId: ownerId
-    QuoteModel.create({quote: quote, author:author, category:category, image:image, })
+    QuoteModel.create({quote: quote, author: author, category: category, image: image })
           .then((response) => {
                res.status(200).json(response)
           })
