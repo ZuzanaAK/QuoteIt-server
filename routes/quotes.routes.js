@@ -21,16 +21,16 @@ router.get('/quotes', (req, res) => {
 
 //create a new quote
 
-router.post('/create', (req, res) => {  
+router.post('/create', isLoggedIn, (req, res) => {  
     const {quote, author, category, image, ownerId} = req.body;
 
      console.log("this is quotes req body:", req.body)
      console.log('This is req.session!!!', req.session)
      console.log('req.session.loggedInUser._id' , req.session.loggedInUser._id)
 
-     let ownerId = req.session.loggedInUser._id
+     let ownerIId = req.session.loggedInUser._id
 
-    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerId: ownerId})
+    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerIId: ownerId})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -42,7 +42,7 @@ router.post('/create', (req, res) => {
           })  
 })
 
-router.get('/quotes/:myId', (req, res) => {
+router.get('/quotes/:myId', isLoggedIn, (req, res) => {
   QuoteModel.findById(req.params.myId)
      .then((response) => {
           res.status(200).json(response)
@@ -55,7 +55,7 @@ router.get('/quotes/:myId', (req, res) => {
      }) 
 })
 
-router.delete('/quotes/:id', (req, res) => {
+router.delete('/quotes/:id', isLoggedIn, (req, res) => {
   QuoteModel.findByIdAndDelete(req.params.id)
           .then((response) => {
                res.status(200).json(response)
@@ -68,7 +68,7 @@ router.delete('/quotes/:id', (req, res) => {
           })  
 })
 
-router.patch('/quotes/:id', (req, res) => {
+router.patch('/quotes/:id', isLoggedIn, (req, res) => {
     let id = req.params.id
     const {quote, author, category, image} = req.body;
     console.log(req.body)
