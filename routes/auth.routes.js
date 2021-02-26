@@ -70,8 +70,6 @@ router.post('/signup', (req, res) => {
 
 });
 
-
-
 router.post('/signin', (req, res) => {
   const {email, password } = req.body;
  
@@ -97,7 +95,7 @@ router.post('/signin', (req, res) => {
           .then((doesItMatch) => {
               //if it matches
               if (doesItMatch) {
-                // req.session is the special object that is available to you
+                // req.session is the special object that is available to us
                 userData.passwordHash = "***";
                 req.session.loggedInUser = userData;
                 console.log('Signin', req.session.loggedInUser)
@@ -138,8 +136,13 @@ router.post('/logout', (req, res) => {
   .send();
 })
 
+//to see if the user is logged in
 router.get("/user", isLoggedIn, (req, res, next) => {
   res.status(200).json(req.session);
 });
+
+router.get("/profile", isLoggedIn, (re, res, next) => {
+  res.status(200).json(req.session);
+})
 
 module.exports = router;

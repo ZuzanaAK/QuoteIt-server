@@ -22,15 +22,15 @@ router.get('/quotes', (req, res) => {
 //create a new quote
 
 router.post('/create', (req, res) => {  
-    const {quote, author, category, image} = req.body;
+    const {quote, author, category, image, ownerId} = req.body;
 
-    console.log("this is quotes req body:", req.body)
-    console.log('This is req.session!!!', req.session)
-//     console.log('req.session.loggedInUser._id' , req.session.loggedInUser._id)
+     console.log("this is quotes req body:", req.body)
+     console.log('This is req.session!!!', req.session)
+     console.log('req.session.loggedInUser._id' , req.session.loggedInUser._id)
 
-//     const ownerId = req.session.loggedInUser._id
+     let ownerId = req.session.loggedInUser._id
 
-    QuoteModel.create({quote: quote, author: author, category: category, image: image})
+    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerId: ownerId})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -70,8 +70,9 @@ router.delete('/quotes/:id', (req, res) => {
 
 router.patch('/quotes/:id', (req, res) => {
     let id = req.params.id
-    const {quote, author, category} = req.body;
-    QuoteModel.findByIdAndUpdate(id, {$set: {quote: quote, author: author, category: category}})
+    const {quote, author, category, image} = req.body;
+    console.log(req.body)
+    QuoteModel.findByIdAndUpdate(id, {$set: {quote: quote, author: author, category: category, image: image}})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -84,5 +85,8 @@ router.patch('/quotes/:id', (req, res) => {
           }) 
 })
 
+router.get("/user", isLoggedIn, (req, res, next) => {
+     res.status(200).json(req.session.loggedInUser);
+});
 
 module.exports = router;
