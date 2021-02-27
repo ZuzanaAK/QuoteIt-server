@@ -72,4 +72,7 @@ app.use('/api', quoteRoutes);
 const fileUploads = require('./routes/file-upload.routes')
 app.use('/api', fileUploads);
 
+const profileRoutes = require('./routes/profile.routes')
+app.use('/api', profileRoutes);
+
 module.exports = app;

@@ -85,6 +85,22 @@ router.patch('/quotes/:id', isLoggedIn, (req, res) => {
           }) 
 })
 
+//user quotes
+router.get("/user-quotes", (req, res) => {
+
+     QuoteModel.find({ $and: {ownerId: req.session.loggedInUser._id} }) 
+        
+     .then((quotes) => {
+          res.status(200).json(quotes);
+          })
+     .catch((err) => {
+          res.status(500).json({
+               error: "Something went wrong",
+               message: err,
+          });
+     });
+});
+
 router.get("/user", isLoggedIn, (req, res, next) => {
      res.status(200).json(req.session.loggedInUser);
 });
