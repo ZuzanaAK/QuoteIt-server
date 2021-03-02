@@ -36,7 +36,7 @@ app.use(
 );
 
 const cors = require('cors')
-app.use(cors({credentials: true, origin: ['http://localhost:3000']}))
+app.use(cors({credentials: true, origin: [process.env.CORS_ALLOWED]}))
 
 // Middleware Setup
 app.use(logger('dev'));

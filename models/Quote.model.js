@@ -11,9 +11,9 @@ let QuoteSchema = new mongoose.Schema({
         type: String,
         enum: ['article', 'book', 'movie', 'person', 'other'],
     },
-    image: {
-        type: String,
-    },
+    // // image: {
+    // //     type: String,
+    // // },
     ownerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -88,7 +88,6 @@ router.patch('/quotes/:id', isLoggedIn, (req, res) => {
 //user quotes
 router.get("/user-quotes", (req, res) => {
 
-     console.log("I AM IN USER-QUOTES")
      console.log("USER ID IN USER QUOTES", req.session.loggedInUser._id)
       
      QuoteModel.find( {ownerId:req.session.loggedInUser._id}) 
