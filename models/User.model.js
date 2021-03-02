@@ -20,7 +20,6 @@ const userSchema = new Schema(
   }
 );
 
-
 //used to ensure that both emain and username are unique 
 // Read https://mongoosejs.com/docs/validation.html#the-unique-option-is-not-a-validator
 userSchema.index({ 'email': 1}, {unique: true});

@@ -22,15 +22,15 @@ router.get('/quotes', (req, res) => {
 //create a new quote
 
 router.post('/create', isLoggedIn, (req, res) => {  
-    const {quote, author, category, image, ownerId} = req.body;
+    const {quote, author, category, image} = req.body;
 
      console.log("this is quotes req body:", req.body)
      console.log('This is req.session!!!', req.session)
      console.log('req.session.loggedInUser._id' , req.session.loggedInUser._id)
 
-     let ownerIId = req.session.loggedInUser._id
+     let ownerId = req.session.loggedInUser._id
 
-    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerIId: ownerId})
+    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerId: ownerId})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -88,10 +88,13 @@ router.patch('/quotes/:id', isLoggedIn, (req, res) => {
 //user quotes
 router.get("/user-quotes", (req, res) => {
 
-     QuoteModel.find({ $and: {ownerId: req.session.loggedInUser._id} }) 
-        
+     console.log("I AM IN USER-QUOTES")
+     console.log("USER ID IN USER QUOTES", req.session.loggedInUser._id)
+      
+     QuoteModel.find( {ownerId:req.session.loggedInUser._id}) 
      .then((quotes) => {
           res.status(200).json(quotes);
+          console.log("QUOTES ARE", quotes)
           })
      .catch((err) => {
           res.status(500).json({
@@ -100,6 +103,7 @@ router.get("/user-quotes", (req, res) => {
           });
      });
 });
+   
 
 router.get("/user", isLoggedIn, (req, res, next) => {
      res.status(200).json(req.session.loggedInUser);

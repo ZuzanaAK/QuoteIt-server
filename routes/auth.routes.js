@@ -141,7 +141,8 @@ router.get("/user", isLoggedIn, (req, res, next) => {
   res.status(200).json(req.session);
 });
 
-router.get("/profile", isLoggedIn, (re, res, next) => {
+router.get("/profile", isLoggedIn, (req, res) => {
+  console.log("THIS IS THE PROFILE PAGE")
   res.status(200).json(req.session);
 })
 
