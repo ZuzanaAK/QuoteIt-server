@@ -55,9 +55,13 @@ router.get('/quotes/:myId', isLoggedIn, (req, res) => {
      }) 
 })
 
-router.delete('/quotes/:id', isLoggedIn, (req, res) => {
+router.delete('/quotes/:id', (req, res) => {
+     console.log("THIS IS INSIDE DELETE", req.params.id)
+   
+     // // console.log("USER ID IN USER QUOTES", req.session.loggedInUser._id)
   QuoteModel.findByIdAndDelete(req.params.id)
           .then((response) => {
+               console.log("WE ARE IN SIDE THEN BLOCK OF DELETE")
                res.status(200).json(response)
           })
           .catch((err) => {
