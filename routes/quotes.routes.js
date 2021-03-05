@@ -22,15 +22,11 @@ router.get('/quotes', (req, res) => {
 //create a new quote
 
 router.post('/create', isLoggedIn, (req, res) => {  
-    const {quote, author, category, image} = req.body;
-
-     console.log("this is quotes req body:", req.body)
-     console.log('This is req.session!!!', req.session)
-     console.log('req.session.loggedInUser._id' , req.session.loggedInUser._id)
+    const {quote, author, category} = req.body;
 
      let ownerId = req.session.loggedInUser._id
 
-    QuoteModel.create({quote: quote, author: author, category: category, image: image, ownerId: ownerId})
+    QuoteModel.create({quote: quote, author: author, category: category, ownerId: ownerId})
           .then((response) => {
                res.status(200).json(response)
           })
@@ -42,9 +38,11 @@ router.post('/create', isLoggedIn, (req, res) => {
           })  
 })
 
-router.get('/quotes/:myId', isLoggedIn, (req, res) => {
-  QuoteModel.findById(req.params.myId)
+router.get('/quotes/:quoteId', (req, res) => {
+
+     QuoteModel.findById(req.params.quoteId)
      .then((response) => {
+          console.log("I AM IN QUOTE ID")
           res.status(200).json(response)
      })
      .catch((err) => {
@@ -56,9 +54,7 @@ router.get('/quotes/:myId', isLoggedIn, (req, res) => {
 })
 
 router.delete('/quotes/:id', (req, res) => {
-     console.log("THIS IS INSIDE DELETE", req.params.id)
-   
-     // // console.log("USER ID IN USER QUOTES", req.session.loggedInUser._id)
+// // console.log("USER ID IN USER QUOTES", req.session.loggedInUser._id)
   QuoteModel.findByIdAndDelete(req.params.id)
           .then((response) => {
                console.log("WE ARE IN SIDE THEN BLOCK OF DELETE")
@@ -74,11 +70,12 @@ router.delete('/quotes/:id', (req, res) => {
 
 router.patch('/quotes/:id', isLoggedIn, (req, res) => {
     let id = req.params.id
-    const {quote, author, category, image} = req.body;
-    console.log(req.body)
-    QuoteModel.findByIdAndUpdate(id, {$set: {quote: quote, author: author, category: category, image: image}})
+    const {quote, author, category} = req.body;
+  
+    QuoteModel.findByIdAndUpdate(id, {$set: {quote: quote, author: author, category: category}})
           .then((response) => {
                res.status(200).json(response)
+               console.log("THIS IS THE RESPONSE OF PATCH")
           })
           .catch((err) => {
                console.log(err)
@@ -106,6 +103,8 @@ router.get("/user-quotes", (req, res) => {
           });
      });
 });
+
+
    
 
 router.get("/user", isLoggedIn, (req, res, next) => {

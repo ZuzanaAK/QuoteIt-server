@@ -9,7 +9,7 @@ let QuoteSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['article', 'book', 'movie', 'person', 'other'],
+        // enum: ['article', 'book', 'movie', 'person', 'other'],
     },
     // // image: {
     // //     type: String,
