@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 
 let QuoteSchema = new mongoose.Schema({
     quote: {
-        type: String
+        type: String,
+        required: [true, "This field is required"],
     },
     author: {
-        type: String
+        type: String,
+        required: [true, "This field is required"],
     },
     category: {
         type: String,
