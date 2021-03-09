@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const nodemailer = require('nodemailer');
 
 const bcrypt = require('bcryptjs');
 
@@ -48,6 +49,9 @@ router.post('/signup', (req, res) => {
                 req.session.loggedInUser = user;
                 console.log(req.session)
                 res.status(200).json(user);
+
+                sendWelcomeEmail(emailAddress);
+
               })
               .catch((err) => {
                 if (err.code === 11000) {
@@ -145,5 +149,43 @@ router.get("/profile", isLoggedIn, (req, res) => {
   console.log("THIS IS THE PROFILE PAGE")
   res.status(200).json(req.session);
 })
+
+
+//-----------------------------------------
+//.........To Send Welcome Email
+// ----------------------------------------
+
+
+
+function sendWelcomeEmail(emailAddress) {
+
+  let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'quoteitwelcomeservice@gmail.com',
+      pass: "QuoteIt2021",
+    }
+  })
+
+  transporter.sendMail({
+    from: '"QuoteIt Team " <quoteitwelcomeservice@gmail.com>',
+    to: emailAddress,
+    subject: 'Welcome Email',
+    text: 'welcome',
+    html: 
+    `<h2>Welcome to QuoteIt!</h2>
+    <p>Thank you for joining! Now, you can not only get inspired by all the quotes in our database but you can also contribute with your own favorite quotes!</p>
+    <p>If you have any questions or feedback, please, contact our admin team.</p>
+   `
+  })
+  .then(info => console.log(info))
+  .catch(err => console.log("NODEMAILER NOT SUCCESSFUL", err));
+}
+
+
+
+
+
+
 
 module.exports = router;
