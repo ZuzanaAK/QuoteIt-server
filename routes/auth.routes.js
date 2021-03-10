@@ -50,7 +50,7 @@ router.post('/signup', (req, res) => {
                 console.log(req.session)
                 res.status(200).json(user);
 
-                sendWelcomeEmail(emailAddress);
+                // // // sendWelcomeEmail(emailAddress);
 
               })
               .catch((err) => {
