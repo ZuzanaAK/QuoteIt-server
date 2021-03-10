@@ -9,8 +9,11 @@ const UserModel = require('../models/User.model');
 const { isLoggedIn } = require('../helpers/auth-helper'); // middleware to check if user is loggedIn
 
 router.post('/signup', (req, res) => {
+
+
+
     const {username, email, password } = req.body;
-    console.log(username, email, password);
+    console.log("post request to /signup....", username, email, password);
  
     if (!username || !email || !password) {
         res.status(500)
@@ -45,6 +48,9 @@ router.post('/signup', (req, res) => {
           .then((passwordHash) => {
             UserModel.create({email, username, passwordHash})
               .then((user) => {
+
+                  console.log("user created...", user)
+
                 user.passwordHash = "***";
                 req.session.loggedInUser = user;
                 console.log(req.session)
@@ -62,6 +68,7 @@ router.post('/signup', (req, res) => {
                   return;  
                 } 
                 else {
+                  console.log("failed....", err)
                   res.status(500)
                   .json({
                     errorMessage: 'Something went wrong! Go to sleep!'
@@ -69,7 +76,8 @@ router.post('/signup', (req, res) => {
                   return; 
                 }
               })
-          });  
+          });
+            console.log("end of /signup endpoint")
   });
 
 });
