@@ -20,11 +20,13 @@ const app = express();
 
 app.use(
   session({
-    secret: 'my-secret',
-    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+    saveUninitialized: false,
     resave: true,
     cookie: {
       maxAge: 60 * 60 * 24 * 1000, //60 sec * 60 min * 24hrs = 1 day (in milliseconds)
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+      secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
     },
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
@@ -52,7 +54,7 @@ app.use(cookieParser());
 //   sourceMap: true
 // }));
       
-
+app.set("trust proxy", 1);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
