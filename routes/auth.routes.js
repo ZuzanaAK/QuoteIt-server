@@ -56,7 +56,7 @@ router.post('/signup', (req, res) => {
                 console.log(req.session)
                 res.status(200).json(user);
 
-                // // // sendWelcomeEmail(emailAddress);
+                sendWelcomeEmail(email);
 
               })
               .catch((err) => {
@@ -160,7 +160,7 @@ router.get("/profile", isLoggedIn, (req, res) => {
 
 
 //-----------------------------------------
-//.........To Send Welcome Email
+//.........To Send Welcome Email...........
 // ----------------------------------------
 
 
